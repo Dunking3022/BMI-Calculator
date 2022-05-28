@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmi_calculator/Icon_Content.dart';
 import 'package:bmi_calculator/Reusable_Card.dart';
+import 'package:bmi_calculator/constants.dart';
 
-enum Gender { Male, Female }
-const bottomContainerHeight = 80.0;
-const activeCardColour = Color(0xFF1D1E33);
-const inactiveCardColour = Color(0xFF111328);
-const bottomContainerColour = Color(0xFFEB15555);
+
 Gender selectedCard = null;
 
 class InputPage extends StatefulWidget {
@@ -17,31 +14,10 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColour = inactiveCardColour;
-  Color femaleCardColour = inactiveCardColour;
+  Color maleCardColour = kInactiveCardColour;
+  Color femaleCardColour = kInactiveCardColour;
+  double sliderHeight = 180.0;
 
-  void updateColour(Gender gender) {
-    if (gender == Gender.Male) {
-      if (maleCardColour == inactiveCardColour) {
-        maleCardColour = activeCardColour;
-        femaleCardColour = inactiveCardColour;
-        selectedCard = Gender.Male;
-      } else {
-        maleCardColour = inactiveCardColour;
-        selectedCard = null;
-      }
-    }
-    if (gender == Gender.Female) {
-      if (femaleCardColour == inactiveCardColour) {
-        femaleCardColour = activeCardColour;
-        maleCardColour = inactiveCardColour;
-        selectedCard = Gender.Female;
-      } else {
-        femaleCardColour = inactiveCardColour;
-        selectedCard = null;
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +26,7 @@ class _InputPageState extends State<InputPage> {
         title: Center(child: Text('BMI CALCULATOR')),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
@@ -62,8 +39,8 @@ class _InputPageState extends State<InputPage> {
                       });
                     },
                     colour: (selectedCard == Gender.Male)
-                        ? activeCardColour
-                        : inactiveCardColour,
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
                     cardChild: cardContent(
                       iconData: FontAwesomeIcons.mars,
                       iconString: 'MALE',
@@ -78,8 +55,8 @@ class _InputPageState extends State<InputPage> {
                     });
                   },
                   colour: (selectedCard == Gender.Female)
-                      ? activeCardColour
-                      : inactiveCardColour,
+                      ? kActiveCardColour
+                      : kInactiveCardColour,
                   cardChild: cardContent(
                     iconData: FontAwesomeIcons.venus,
                     iconString: 'FEMALE',
@@ -91,7 +68,43 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                Expanded(child: ReusableCard()),
+                Expanded(child: ReusableCard(
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("HEIGHT",style: labelTextStyle),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(sliderHeight.toInt().toString(),style: kSliderTextStyle,),
+                          Text("cm",style : labelTextStyle),
+                        ],
+                      ),
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          activeTrackColor: kBottomContainerColour,
+                          overlayColor: Color(0x22EB15555),
+                          thumbColor: Colors.white,
+                          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15),
+                          overlayShape: RoundSliderOverlayShape(overlayRadius: 30),
+                        ),
+                        child: Slider(
+                          min: 120.0,
+                          max: 220.0,
+                          value: sliderHeight,
+                          onChanged: (newSliderValue){
+                            setState(() {
+                              sliderHeight = newSliderValue;
+
+                            });
+                            },
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
               ],
             ),
           ),
@@ -104,9 +117,9 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           Container(
-            color: bottomContainerColour,
+            color: kBottomContainerColour,
             width: double.infinity,
-            height: bottomContainerHeight,
+            height: kBottomContainerHeight,
           ),
         ],
       ),
