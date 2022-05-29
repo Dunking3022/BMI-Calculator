@@ -18,7 +18,7 @@ class _InputPageState extends State<InputPage> {
   Color femaleCardColour = kInactiveCardColour;
   double sliderHeight = 180.0;
   double buttonWeight = 60.0;
-  double buttonHeight = 140.0;
+  double buttonAge = 19.0;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +173,7 @@ class _InputPageState extends State<InputPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "HEIGHT",
+                        "AGE",
                         style: labelTextStyle,
                       ),
                       Row(
@@ -181,12 +181,8 @@ class _InputPageState extends State<InputPage> {
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text(buttonHeight.toInt().toString(),
+                          Text(buttonAge.toInt().toString(),
                               style: kSliderTextStyle),
-                          Text(
-                            "Kg",
-                            style: labelTextStyle,
-                          )
                         ],
                       ),
                       Row(
@@ -195,7 +191,7 @@ class _InputPageState extends State<InputPage> {
                           RoundIconButton(
                             onPressed: () {
                               setState(() {
-                                buttonHeight++;
+                                buttonAge++;
                               });
                             },
                             iconChild: Icon(FontAwesomeIcons.plus),
@@ -206,7 +202,7 @@ class _InputPageState extends State<InputPage> {
                           RoundIconButton(
                             onPressed: () {
                               setState(() {
-                                buttonHeight--;
+                                buttonAge--;
                               });
                               ;
                             },
