@@ -1,10 +1,10 @@
 import 'package:bmi_calculator/Icon_Content.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmi_calculator/Icon_Content.dart';
 import 'package:bmi_calculator/Reusable_Card.dart';
 import 'package:bmi_calculator/constants.dart';
-
 
 Gender selectedCard = null;
 
@@ -17,7 +17,8 @@ class _InputPageState extends State<InputPage> {
   Color maleCardColour = kInactiveCardColour;
   Color femaleCardColour = kInactiveCardColour;
   double sliderHeight = 180.0;
-
+  double buttonWeight = 60.0;
+  double buttonHeight = 140.0;
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +69,22 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                Expanded(child: ReusableCard(
+                Expanded(
+                    child: ReusableCard(
                   cardChild: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("HEIGHT",style: labelTextStyle),
+                      Text("HEIGHT", style: labelTextStyle),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text(sliderHeight.toInt().toString(),style: kSliderTextStyle,),
-                          Text("cm",style : labelTextStyle),
+                          Text(
+                            sliderHeight.toInt().toString(),
+                            style: kSliderTextStyle,
+                          ),
+                          Text("cm", style: labelTextStyle),
                         ],
                       ),
                       SliderTheme(
@@ -87,19 +92,20 @@ class _InputPageState extends State<InputPage> {
                           activeTrackColor: kBottomContainerColour,
                           overlayColor: Color(0x22EB15555),
                           thumbColor: Colors.white,
-                          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15),
-                          overlayShape: RoundSliderOverlayShape(overlayRadius: 30),
+                          thumbShape:
+                              RoundSliderThumbShape(enabledThumbRadius: 15),
+                          overlayShape:
+                              RoundSliderOverlayShape(overlayRadius: 30),
                         ),
                         child: Slider(
                           min: 120.0,
                           max: 220.0,
                           value: sliderHeight,
-                          onChanged: (newSliderValue){
+                          onChanged: (newSliderValue) {
                             setState(() {
                               sliderHeight = newSliderValue;
-
                             });
-                            },
+                          },
                         ),
                       ),
                     ],
@@ -111,8 +117,106 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                Expanded(child: ReusableCard()),
-                Expanded(child: ReusableCard()),
+                Expanded(
+                    child: ReusableCard(
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "WEIGHT",
+                        style: labelTextStyle,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(buttonWeight.toInt().toString(),
+                              style: kSliderTextStyle),
+                          Text(
+                            "Kg",
+                            style: labelTextStyle,
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RoundIconButton(
+                            onPressed: () {
+                              setState(() {
+                                buttonWeight++;
+                              });
+                            },
+                            iconChild: Icon(FontAwesomeIcons.plus),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          RoundIconButton(
+                            onPressed: () {
+                              setState(() {
+                                buttonWeight--;
+                              });
+                              ;
+                            },
+                            iconChild: Icon(FontAwesomeIcons.minus),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+                Expanded(
+                    child: ReusableCard(
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "HEIGHT",
+                        style: labelTextStyle,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(buttonHeight.toInt().toString(),
+                              style: kSliderTextStyle),
+                          Text(
+                            "Kg",
+                            style: labelTextStyle,
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RoundIconButton(
+                            onPressed: () {
+                              setState(() {
+                                buttonHeight++;
+                              });
+                            },
+                            iconChild: Icon(FontAwesomeIcons.plus),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          RoundIconButton(
+                            onPressed: () {
+                              setState(() {
+                                buttonHeight--;
+                              });
+                              ;
+                            },
+                            iconChild: Icon(FontAwesomeIcons.minus),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
               ],
             ),
           ),
@@ -124,5 +228,25 @@ class _InputPageState extends State<InputPage> {
         ],
       ),
     );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  final Function onPressed;
+  final Widget iconChild;
+  const RoundIconButton({@required this.onPressed, @required this.iconChild});
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+        child: iconChild,
+        shape: CircleBorder(),
+        elevation: 6.0,
+        constraints: BoxConstraints.tightFor(
+          height: 56.0,
+          width: 56.0,
+        ),
+        fillColor: FABcol,
+        onPressed: onPressed);
   }
 }
